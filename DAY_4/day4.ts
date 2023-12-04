@@ -1,5 +1,5 @@
 
-import { readFl } from "../utils/util_functions";
+import { arraySum, readFl } from "../utils/util_functions";
 
 const splitted = readFl('input.txt', '\n');
 
@@ -79,41 +79,21 @@ function part2() {
 
     const cards = readCards();
 
-    class keyValue {
-        multiplier: number;
-        value: number
-
-        constructor(key: number, value: number){
-            this.multiplier = key;
-            this.value = value;
-        }
-    };
-
-    let scoreSum = new Array<keyValue>()
+    let scoreSum = new Array<number>();
 
     for (let k = 0; k < cards.length; k++) {
-        scoreSum.push(new keyValue(1, 0)); 
+        scoreSum.push(1);
     }
 
-    for (let i = 0; i < cards.length;  i++) {
+    for (let i = 0; i < cards.length; i++) {
         let score = cards[i].matchingNumberCount();
 
-        console.log('score: ' + score);
-
-        scoreSum[i].value = score;
-
-        for (let j = i + 1; j < i + score;  j++) {
-            cards[j]
-            scoreSum[j].multiplier++;
+        for (let j = i + 1; j < i + 1 + score; j++) {
+            scoreSum[j] += scoreSum[i];
         }
     }
 
-     let sum = 0;
-
-    scoreSum.forEach(x => {
-        sum += x.multiplier * x.value;
-    })
-    return sum;
+    return arraySum(scoreSum);
 };
 
 console.log(part2());
